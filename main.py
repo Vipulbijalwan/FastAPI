@@ -40,3 +40,23 @@ def create_product(data:ProductDTO):
     products.append(product_data)
     return {"status": "Product created successfully..."
             ,"data":products}
+
+
+@app.put("/update_product/{product_id}")
+def update_product(data:ProductDTO,product_id:int):
+    for index,one_product in enumerate(products):
+      if one_product.get("id") == product_id:
+        products[index]=data.model_dump()
+        
+    return {"status": "Product updated successfully..."
+            ,"data":data}
+    
+    
+@app.delete("/delete_product/{product_id}")
+def delete_product(product_id:int):
+    for index,one_product in enumerate(products):
+      if one_product.get("id") == product_id:
+        delete_product=products.pop(index)
+        return {"status": "Product deleted successfully..."
+            ,"data":delete_product}
+    return {"error": "Product not found"}
